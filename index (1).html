@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gerencia de Planificación · CAH · Julio 2026</title>
+<style>
+:root{
+--ink:#17211b;--muted:#64706a;--line:#dfe5e1;--paper:#f4f7f5;--card:#fff;
+--green:#0f5c3f;--green2:#2d7a58;--soft:#e7f2ec;--gold:#c89b3c;
+--blue:#2f6f9f;--blue-soft:#e9f2f8;--orange:#c8732d;--orange-soft:#fbefe4;
+--purple:#7653a6;--purple-soft:#f0eaf7;--teal:#168a88;--teal-soft:#e5f5f4;
+--red:#b6534d;--red-soft:#f8e9e7
+}
+*{box-sizing:border-box} body{margin:0;background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial;color:var(--ink)}
+.wrap{max-width:1180px;margin:auto;padding:28px 22px 60px}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:44px;height:44px;border-radius:50%;background:var(--green);display:grid;place-items:center;color:white;font-weight:800;letter-spacing:-1px}
+.brand b{display:block;font-size:18px}.brand span,.eyebrow,.muted{color:var(--muted);font-size:12px}.status{text-align:right}.pill{display:inline-block;background:var(--soft);color:var(--green);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.hero{padding:42px 0 20px}.eyebrow{font-weight:800;letter-spacing:.14em}.hero h1{font-size:46px;line-height:1.02;margin:8px 0 10px;letter-spacing:-.045em}.hero p{color:var(--muted);margin:0}
+.controls{display:flex;gap:12px;align-items:center;margin:20px 0 26px}.controls select{background:white;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font:inherit}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 1px 1px rgba(0,0,0,.02)}
+.kpi .label{font-size:12px;color:var(--muted);font-weight:700}.kpi .value{font-size:27px;font-weight:800;margin:7px 0 3px;letter-spacing:-.035em}.delta{font-size:12px;color:var(--green2);font-weight:700}
+.section{margin-top:30px}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:12px}.section h2{font-size:23px;margin:3px 0}.section .tag{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.12em}
+.two{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.bars{display:grid;gap:12px;margin-top:15px}.barrow{display:grid;grid-template-columns:135px 1fr 105px;gap:10px;align-items:center;font-size:12px}.track{height:10px;background:#edf1ee;border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--green2);border-radius:99px}.right{text-align:right;font-variant-numeric:tabular-nums}
+.bigread{font-size:34px;font-weight:850;letter-spacing:-.04em;margin:12px 0 5px}.note{font-size:13px;line-height:1.5;color:var(--muted)}
+.stack{height:18px;display:flex;border-radius:99px;overflow:hidden;background:#eee;margin:18px 0}.stack span:nth-child(1){background:#2d6a4f}.stack span:nth-child(2){background:#c69f55}.stack span:nth-child(3){background:#8c5b4b}
+.mini3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini{background:#f7f8f6;border-radius:12px;padding:12px}.mini b{display:block;margin-top:4px}
+.ratios{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.ratio{text-align:center;padding:20px 8px}.ratio b{font-size:25px;display:block}.ratio span{font-size:11px;color:var(--muted)}
+.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right}.table th:first-child,.table td:first-child{text-align:left}.table th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.quality{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.q{padding:14px;background:#f7f8f6;border-radius:12px}.q b{font-size:18px;display:block}
+.warn{border-left:3px solid var(--gold);padding-left:12px}.footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+@media(max-width:850px){.grid4,.ratios{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.hero h1{font-size:38px}}
+@media(max-width:520px){.grid4,.ratios,.quality{grid-template-columns:1fr}.top{align-items:flex-start}.status{display:none}.barrow{grid-template-columns:105px 1fr 85px}}
+
+.kpi{position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px}
+.grid4 .kpi:nth-child(1){background:linear-gradient(135deg,#ffffff 0%,var(--blue-soft) 100%)} .grid4 .kpi:nth-child(1):before{background:var(--blue)}
+.grid4 .kpi:nth-child(2){background:linear-gradient(135deg,#ffffff 0%,var(--teal-soft) 100%)} .grid4 .kpi:nth-child(2):before{background:var(--teal)}
+.grid4 .kpi:nth-child(3){background:linear-gradient(135deg,#ffffff 0%,var(--purple-soft) 100%)} .grid4 .kpi:nth-child(3):before{background:var(--purple)}
+.grid4 .kpi:nth-child(4){background:linear-gradient(135deg,#ffffff 0%,var(--orange-soft) 100%)} .grid4 .kpi:nth-child(4):before{background:var(--orange)}
+.grid4 .kpi:nth-child(1) .value{color:var(--blue)}
+.grid4 .kpi:nth-child(2) .value{color:var(--teal)}
+.grid4 .kpi:nth-child(3) .value{color:var(--purple)}
+.grid4 .kpi:nth-child(4) .value{color:var(--orange)}
+.card{transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(25,55,40,.07)}
+.track{background:#e8ece9}
+.fill{background:linear-gradient(90deg,var(--green2),var(--teal))}
+#activityBars .barrow:nth-child(1) .fill{background:linear-gradient(90deg,#2f6f9f,#5e9bc4)}
+#activityBars .barrow:nth-child(2) .fill{background:linear-gradient(90deg,#168a88,#4ab3a8)}
+#sectorBars .barrow:nth-child(1) .fill{background:#2d7a58}
+#sectorBars .barrow:nth-child(2) .fill{background:#2f6f9f}
+#sectorBars .barrow:nth-child(3) .fill{background:#7653a6}
+#sectorBars .barrow:nth-child(4) .fill{background:#c8732d}
+#sectorBars .barrow:nth-child(5) .fill{background:#168a88}
+#sectorBars .barrow:nth-child(6) .fill{background:#c89b3c}
+#sectorBars .barrow:nth-child(7) .fill{background:#b6534d}
+.ratios .card:nth-child(1){border-top:5px solid var(--green2)}
+.ratios .card:nth-child(2){border-top:5px solid var(--blue)}
+.ratios .card:nth-child(3){border-top:5px solid var(--purple)}
+.ratios .card:nth-child(4){border-top:5px solid var(--orange)}
+.ratios .card:nth-child(1) b{color:var(--green2)}
+.ratios .card:nth-child(2) b{color:var(--blue)}
+.ratios .card:nth-child(3) b{color:var(--purple)}
+.ratios .card:nth-child(4) b{color:var(--orange)}
+.mini{border:1px solid #e7ebe8}
+.bigread{color:var(--green)}
+.hero:after{content:"";display:block;width:86px;height:5px;border-radius:20px;background:linear-gradient(90deg,var(--green),var(--gold),var(--blue));margin-top:18px}
+
+</style>
+</head>
+<body><div class="wrap">
+<div class="top"><div class="brand"><div class="mark">CAH</div><div><b>Gerencia de Planificación</b><span>Crédito Agrícola de Habilitación</span></div></div><div class="status"><span class="pill">Excel corregido · corte julio 2026</span></div></div>
+<div class="hero"><div class="eyebrow">INFORME FINANCIERO INSTITUCIONAL</div><h1>Panorama de gestión</h1><p>Evolución de indicadores de referencia · cifras en guaraníes</p></div>
+<div class="controls"><label class="muted">Periodo de análisis</label><select id="period"><option value="acumulado">Enero a julio 2026</option><option value="julio">Mes de julio 2026</option></select></div>
+
+<div class="grid4">
+<div class="card kpi"><div class="label">Desembolsos</div><div class="value" id="kDes"></div><div class="delta" id="dDes"></div></div>
+<div class="card kpi"><div class="label">Recuperaciones</div><div class="value" id="kRec"></div><div class="delta" id="dRec"></div></div>
+<div class="card kpi"><div class="label">Resultado del ejercicio</div><div class="value" id="kRes"></div><div class="delta" id="dRes"></div></div>
+<div class="card kpi"><div class="label">Bancarización</div><div class="value">99,71%</div><div class="delta">24.083 de 24.153 operaciones</div></div>
+</div>
+
+<div class="section"><div class="section-head"><div><div class="tag">ACTIVIDAD</div><h2>Desembolsos y recuperaciones</h2></div><div class="muted" id="periodLabel"></div></div>
+<div class="two">
+<div class="card"><div class="bars" id="activityBars"></div></div>
+<div class="card"><div class="tag">LECTURA EJECUTIVA</div><div class="bigread" id="netFlow"></div><div class="note" id="netText"></div><div class="mini3" style="margin-top:16px"><div class="mini"><span class="muted">Operaciones</span><b id="ops"></b></div><div class="mini"><span class="muted">Ejecución presupuesto</span><b id="budget"></b></div><div class="mini"><span class="muted">Cartera total</span><b id="portfolioMini"></b></div></div></div>
+</div></div>
+
+
+<div class="section"><div class="section-head"><div><div class="tag">INCLUSIÓN FINANCIERA</div><h2>Bancarización</h2></div><div class="muted">Acumulado enero–julio 2026</div></div>
+<div class="two">
+<div class="card">
+<div class="tag">OPERACIONES BANCARIZADAS</div>
+<div class="bigread">24.083</div>
+<div class="note">De 24.153 operaciones de desembolso, equivalente al <b>99,71%</b>.</div>
+<div class="bars">
+<div class="barrow"><span>Bancarizadas</span><div class="track"><div class="fill" style="width:99.71%"></div></div><b class="right">99,71%</b></div>
+</div>
+</div>
+<div class="card">
+<div class="tag">MONTO BANCARIZADO</div>
+<div class="bigread">₲ 364.088 M</div>
+<div class="note">Sobre desembolsos acumulados por ₲ 365.466 M, equivalente al <b>99,62%</b> del importe.</div>
+<div class="mini3" style="margin-top:16px">
+<div class="mini"><span class="muted">Bancarizados del mes</span><b>3.568</b></div>
+<div class="mini"><span class="muted">Total operaciones</span><b>24.153</b></div>
+<div class="mini"><span class="muted">Monto total</span><b>₲ 365.466 M</b></div>
+</div>
+</div>
+</div></div>
+
+<div class="section" id="sectorSection"><div class="section-head"><div><div class="tag">COMPOSICIÓN</div><h2>Desembolsos por sector</h2></div><div class="muted">Acumulado enero–julio</div></div><div class="card"><div class="bars" id="sectorBars"></div></div></div>
+
+<div class="section"><div class="section-head"><div><div class="tag">RIESGO Y SOLIDEZ</div><h2>Cartera, morosidad y ratios</h2></div><div class="muted">Comparativo interanual</div></div>
+<div class="two"><div class="card"><div class="tag">CALIDAD DE CARTERA</div><div class="bigread" id="portfolio"></div><div class="stack" id="stack"></div><div class="mini3" id="portfolioParts"></div></div>
+<div class="card"><div class="tag">MOROSIDAD</div><h2 style="font-size:18px">PAR sobre capital exigible</h2><div class="mini3"><div class="mini"><span class="muted">PAR 0</span><b id="par0"></b></div><div class="mini"><span class="muted">PAR 60</span><b id="par60"></b></div><div class="mini"><span class="muted">Base exigible</span><b>₲ 268.774 M</b></div></div><p class="note">El libro fuente informa PAR 0 y PAR 60 acumulados a julio de 2026 y su comparativo a julio de 2025.</p></div></div>
+</div>
+
+<div class="section"><div class="section-head"><div><div class="tag">INDICADORES FINANCIEROS</div><h2>Rentabilidad, liquidez y solvencia</h2></div></div><div class="ratios">
+<div class="card ratio"><b id="roe"></b><span>ROE · resultado / patrimonio</span></div><div class="card ratio"><b id="roa"></b><span>ROA · resultado / activos</span></div><div class="card ratio"><b id="solv"></b><span>Solvencia · activo / pasivo</span></div><div class="card ratio"><b id="liq"></b><span>Liquidez · activo corriente / pasivo corriente</span></div></div></div>
+
+<div class="section"><div class="section-head"><div><div class="tag">RESULTADOS</div><h2>Estado de resultados</h2></div><div class="muted" id="erPeriod"></div></div><div class="card"><table class="table"><tbody id="resultsTable"></tbody></table></div></div>
+
+<div class="section" id="recSection"><div class="section-head"><div><div class="tag">RECUPERACIONES</div><h2>Capital recuperado por estado</h2></div><div class="muted">2026 vs. 2025</div></div><div class="card"><table class="table"><thead><tr><th>Estado</th><th>2026</th><th>2025</th><th>Var.</th></tr></thead><tbody id="recTable"></tbody></table></div></div>
+
+<div class="section"><div class="section-head"><div><div class="tag">TRAZABILIDAD</div><h2>Fuentes y controles</h2></div></div><div class="card">
+<div class="quality"><div class="q"><span class="muted">Hojas identificadas</span><b>23</b></div><div class="q"><span class="muted">Fuente principal</span><b>CIFRAS julio</b></div><div class="q"><span class="muted">Periodo</span><b>Julio 2026</b></div></div>
+<p class="note">Control de calidad actualizado: la bancarización fue recalculada con la versión corregida del Excel. La hoja <b>TD BANCARIZ</b> consolida 24.083 operaciones bancarizadas de 24.153 desembolsos (99,71%) y ₲ 364.087.507.285 bancarizados sobre ₲ 365.465.733.512 desembolsados (99,62%).</p>
+</div></div>
+<div class="footer">Fuente: CIFRAS mes julio(1).xlsx · versión corregida · Dashboard reconstruido a partir del libro cargado al proyecto. Importes presentados en millones de guaraníes cuando se abrevia con “M”.</div>
+</div>
+<script>
+const DATA = {"acumulado": {"periodo": "Enero a julio 2026", "comparativo": "Enero a julio 2025", "desembolsos": 365465733512, "desembolsos_prev": 317027943289, "cantidad_des": 24153, "cantidad_des_prev": 23969, "recuperaciones": 379125422195, "recuperaciones_prev": 353285875483, "resultado": 23499786961, "par0": 0.0393, "par0_prev": 0.0342, "par60": 0.0183, "par60_prev": 0.0131, "cartera": 749879205137, "cartera_prev": 733281280007, "vigente": 715646274075, "vencida": 28578445190, "judicial": 5654485872, "roe": 0.030407953788302838, "roa": 0.0276877067908355, "solvencia": 11.178379690011203, "liquidez": 23.227084172578785, "ing_op": 61463289562, "otros_ing": 5795162332, "gastos": 30766366719, "previsiones": 12991872640, "sectores": [["Agropecuario", 152913940059], ["Agrícola", 86287719320], ["Actividades afines", 42924099852], ["Comercio", 29146192798], ["Pecuario", 25348639459], ["Servicios", 17989685697], ["Artesanía", 8769862500], ["Agroindustrias", 1506020000], ["Sin dato", 493193827], ["Forestal", 86380000]], "rec_estados": [["Vigente", 315523324097, 293937880487], ["Vencida", 3586180660, 3935745929], ["Castigado", 1075806330, 1961513490], ["Judicial", 518041617, 811061843], ["Desafectado judicial", 185860219, 1790612]]}, "julio": {"periodo": "Julio 2026", "comparativo": "Julio 2025", "desembolsos": 54160457927, "desembolsos_prev": 54996021504, "cantidad_des": 3579, "cantidad_des_prev": 4113, "recuperaciones": 53038675777, "recuperaciones_prev": 50146401877, "resultado": 3881876082, "par0": null, "par0_prev": null, "par60": null, "par60_prev": null, "cartera": 749879205137, "cartera_prev": 733281280007, "vigente": 715646274075, "vencida": 28578445190, "judicial": 5654485872, "roe": 0.030407953788302838, "roa": 0.0276877067908355, "solvencia": 11.178379690011203, "liquidez": 23.227084172578785, "ing_op": 9172797951, "otros_ing": 941587685, "gastos": 4870039407, "previsiones": 1362470147, "sectores": [], "rec_estados": []}};
+const fmtM=n=>"₲ "+Math.round(n/1e6).toLocaleString("es-PY")+" M";
+const pct=n=>n==null?"N/D":(n*100).toLocaleString("es-PY",{minimumFractionDigits:2,maximumFractionDigits:2})+"%";
+const vari=(a,b)=>b?((a/b-1)*100):null;
+const delta=(a,b,suffix=" vs. periodo anterior")=>{let v=vari(a,b);return v==null?"":(v>=0?"+":"")+v.toLocaleString("es-PY",{minimumFractionDigits:1,maximumFractionDigits:1})+"%"+suffix};
+function bars(rows,max){return rows.map(r=>`<div class="barrow"><span>${r[0]}</span><div class="track"><div class="fill" style="width:${Math.max(1,r[1]/max*100)}%"></div></div><b class="right">${fmtM(r[1])}</b></div>`).join("")}
+function render(key){
+ const d=DATA[key]; document.getElementById("periodLabel").textContent=d.periodo;
+ kDes.textContent=fmtM(d.desembolsos); dDes.textContent=delta(d.desembolsos,d.desembolsos_prev," vs. "+d.comparativo.toLowerCase());
+ kRec.textContent=fmtM(d.recuperaciones); dRec.textContent=delta(d.recuperaciones,d.recuperaciones_prev," vs. "+d.comparativo.toLowerCase());
+ kRes.textContent=fmtM(d.resultado); dRes.textContent=key==="julio"?"Resultado del mes":"Acumulado a julio 2026";
+ if(document.getElementById("kPar")) kPar.textContent=pct(d.par0); if(document.getElementById("dPar")) dPar.textContent=d.par0==null?"Disponible en corte acumulado":((d.par0-d.par0_prev)*100).toLocaleString("es-PY",{minimumFractionDigits:2,maximumFractionDigits:2})+" pp vs. julio 2025";
+ let act=[["Desembolsos",d.desembolsos],["Recuperaciones",d.recuperaciones]], mx=Math.max(...act.map(x=>x[1])); activityBars.innerHTML=bars(act,mx);
+ let nf=d.recuperaciones-d.desembolsos; netFlow.textContent=fmtM(Math.abs(nf)); netText.textContent=nf>=0?"Flujo neto favorable: las recuperaciones superan a los desembolsos.":"Los desembolsos superan a las recuperaciones en el periodo.";
+ ops.textContent=d.cantidad_des.toLocaleString("es-PY"); budget.textContent=key==="acumulado"?pct(d.desembolsos/500596847000):"—"; portfolioMini.textContent=fmtM(d.cartera);
+ sectorSection.style.display=d.sectores.length?"block":"none"; if(d.sectores.length)sectorBars.innerHTML=bars(d.sectores.slice(0,7),d.sectores[0][1]);
+ portfolio.textContent=fmtM(d.cartera); let pv=d.vigente/d.cartera,pve=d.vencida/d.cartera,pj=d.judicial/d.cartera; stack.innerHTML=`<span style="width:${pv*100}%"></span><span style="width:${pve*100}%"></span><span style="width:${pj*100}%"></span>`;
+ portfolioParts.innerHTML=[["Vigente",d.vigente,pv],["Vencida",d.vencida,pve],["Judicial",d.judicial,pj]].map(x=>`<div class="mini"><span class="muted">${x[0]} · ${pct(x[2])}</span><b>${fmtM(x[1])}</b></div>`).join("");
+ par0.textContent=pct(d.par0); par60.textContent=pct(d.par60); roe.textContent=pct(d.roe); roa.textContent=pct(d.roa); solv.textContent=d.solvencia.toLocaleString("es-PY",{maximumFractionDigits:2})+"×"; liq.textContent=d.liquidez.toLocaleString("es-PY",{maximumFractionDigits:2})+"×";
+ erPeriod.textContent=d.periodo; let rows=[["Ingresos operativos",d.ing_op],["Otros ingresos",d.otros_ing],["Gastos + costos",-d.gastos],["Previsiones BCP",-d.previsiones],["Resultado del ejercicio",d.resultado]]; resultsTable.innerHTML=rows.map(x=>`<tr><td>${x[0]}</td><td><b>${x[1]<0?"("+fmtM(-x[1])+")":fmtM(x[1])}</b></td></tr>`).join("");
+ recSection.style.display=d.rec_estados.length?"block":"none"; if(d.rec_estados.length)recTable.innerHTML=d.rec_estados.map(x=>`<tr><td>${x[0]}</td><td>${fmtM(x[1])}</td><td>${fmtM(x[2])}</td><td>${delta(x[1],x[2],"")}</td></tr>`).join("");
+}
+period.addEventListener("change",e=>render(e.target.value)); render("acumulado");
+</script></body></html>
