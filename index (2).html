@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gerencia de Planificación · CAH · Julio 2026</title>
+<style>
+:root{
+  --bg:#f3f6f3;--card:#fff;--ink:#10231d;--muted:#68756f;--line:#dce5df;
+  --green:#0f5b46;--green2:#2d8a67;--green3:#78b59a;--nav:#0c3b38;
+  --blue:#2b6f9e;--teal:#178b88;--purple:#7953a6;--orange:#c86f24;
+  --gold:#d6a23e;--red:#bb5b4f;--soft:#eef3ef;--shadow:0 8px 26px rgba(25,54,43,.055)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.layout{display:grid;grid-template-columns:225px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;background:var(--nav);color:#fff;padding:26px 16px}
+.brand{font-weight:850;font-size:19px;line-height:1.15;margin-bottom:32px}.brand small{display:block;font-weight:500;opacity:.75;font-size:11px;margin-top:6px}
+.nav a{display:block;color:#eaf5f1;text-decoration:none;padding:12px 13px;border-radius:12px;font-size:13px;font-weight:650;margin:3px 0}.nav a:hover{background:rgba(255,255,255,.11)}
+.main{padding:34px 38px 70px;max-width:1500px;width:100%;margin:auto}.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:850;color:#5c7770;text-transform:uppercase}
+.hero{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:24px}.hero h1{font-size:40px;letter-spacing:-.045em;margin:8px 0 10px;font-weight:760}.hero p{color:var(--muted);margin:0}.period label{display:block;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}.period select{padding:12px 14px;border:1px solid #aab8b1;border-radius:13px;background:#fff;font-size:16px;min-width:190px}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;margin-bottom:22px}.strip>div{padding:15px 20px;border-right:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font-size:12px}.strip>div:last-child{border-right:0}.strip span{color:var(--muted)}.strip b{font-size:13px}.ok{color:#087b55}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}.kpi{position:relative;overflow:hidden}.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px}.kpi:nth-child(1):before{background:var(--blue)}.kpi:nth-child(2):before{background:var(--teal)}.kpi:nth-child(3):before{background:var(--purple)}.kpi:nth-child(4):before{background:var(--orange)}
+.klabel{font-size:12px;color:var(--muted);font-weight:720}.kvalue{font-size:30px;letter-spacing:-.04em;font-weight:850;margin:12px 0 5px}.kdelta{font-size:12px;font-weight:750}.pos{color:#087b55}.neg{color:#af4e44}
+section{scroll-margin-top:20px;margin-top:34px}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:13px}.section-head h2{font-size:24px;letter-spacing:-.025em;margin:5px 0 0}.tag{font-size:10px;letter-spacing:.15em;font-weight:850;color:#5b766e;text-transform:uppercase}.badge{font-size:11px;background:#eaf1ed;padding:7px 10px;border-radius:11px;color:#49635a}
+.two{display:grid;grid-template-columns:1.08fr .92fr;gap:15px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.four{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.metric{font-size:34px;font-weight:850;letter-spacing:-.045em}.small{font-size:12px;color:var(--muted);line-height:1.5}.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.mini{background:#f6f8f6;border:1px solid #e6ece8;border-radius:14px;padding:13px}.mini span{font-size:11px;color:var(--muted)}.mini b{display:block;margin-top:4px;font-size:15px}
+.chart-card{padding:22px}.col-chart{height:310px;display:flex;align-items:end;justify-content:center;gap:70px;border-bottom:1px solid #dfe6e1;padding:16px 32px 0;position:relative}.group{display:flex;gap:13px;align-items:end;height:240px;position:relative}.bar{width:52px;border-radius:9px 9px 0 0;position:relative;min-height:2px}.bar.old{background:#c9d3ce}.bar.des{background:linear-gradient(#54a77f,#2f8766)}.bar.rec{background:linear-gradient(#34798a,#174d5b)}.bar label{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;white-space:nowrap}.glabel{position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:750;white-space:nowrap}.legend{display:flex;justify-content:center;gap:18px;font-size:11px;color:var(--muted);margin-top:38px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.hbars{display:grid;gap:10px}.hrow{display:grid;grid-template-columns:150px 1fr 105px;align-items:center;gap:10px;font-size:11px}.track{height:10px;border-radius:99px;background:#e9eeeb;overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green2),#6db69b)}.amount{text-align:right;font-weight:750;font-variant-numeric:tabular-nums}
+.comp-table{width:100%;border-collapse:collapse;font-size:12px}.comp-table th,.comp-table td{padding:10px 8px;border-bottom:1px solid #e7ece9;text-align:right}.comp-table th:first-child,.comp-table td:first-child{text-align:left}.comp-table th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.up{color:#087b55;font-weight:750}.down{color:#b45349;font-weight:750}
+.state-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.state-card h3{font-size:16px;margin:4px 0 14px}
+.pies{display:flex;justify-content:space-around;align-items:center;gap:18px;min-height:305px}.pie-wrap{text-align:center}.pie{border-radius:50%;position:relative;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}.pie:after{content:"";position:absolute;width:53%;height:53%;border-radius:50%;background:white}.pie-center{position:relative;z-index:2;font-weight:850;font-size:14px}.pie-title{font-size:13px;font-weight:800;margin-top:10px}.pie-sub{font-size:11px;color:var(--muted)}.pie-leg{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:var(--muted)}
+.ratio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.ratio{border-top:5px solid var(--green2)}.ratio:nth-child(2){border-top-color:var(--blue)}.ratio:nth-child(3){border-top-color:var(--purple)}.ratio:nth-child(4){border-top-color:var(--orange)}.ratio .metric{font-size:28px}.bench{margin-top:9px;padding-top:9px;border-top:1px solid #e7ece9;font-size:10px;color:var(--muted)}
+.waterfall{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;align-items:end}.wf{border-radius:13px;padding:13px;background:#f6f8f6;border:1px solid #e5ebe7;min-height:104px}.wf b{font-size:17px;display:block;margin-top:7px}.wf.positive{border-top:4px solid var(--green2)}.wf.cost{border-top:4px solid var(--orange)}.wf.prev{border-top:4px solid var(--purple)}.wf.final{border-top:4px solid var(--blue)}
+.erosion{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:13px}.erosion .cardish{background:#f7f9f7;border-radius:14px;padding:14px;border:1px solid #e5ebe7}.erosion b{font-size:21px}.progress{height:10px;background:#e7ece9;border-radius:99px;overflow:hidden;margin:8px 0}.progress span{display:block;height:100%;background:var(--red)}
+.source{font-size:10px;color:#718078;margin-top:16px;line-height:1.5}.warning{background:#fff8e9;border:1px solid #f0ddb2;border-radius:14px;padding:12px 14px;font-size:11px;color:#785b24;margin-top:12px}
+.footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;font-size:10px;color:#718078;line-height:1.6}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.sidebar{display:none}.main{padding:25px}.grid4,.ratio-grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.state-grid{grid-template-columns:1fr}.strip{grid-template-columns:repeat(2,1fr)}.strip>div:nth-child(2){border-right:0}}
+@media(max-width:620px){.grid4,.ratio-grid,.three,.four{grid-template-columns:1fr}.strip{grid-template-columns:1fr}.strip>div{border-right:0;border-bottom:1px solid var(--line)}.hero{align-items:start;flex-direction:column}.main{padding:18px}.hrow{grid-template-columns:115px 1fr 75px}.state-grid{grid-template-columns:1fr}.waterfall{grid-template-columns:1fr}.erosion{grid-template-columns:1fr}.col-chart{gap:30px;padding-left:4px;padding-right:4px}.bar{width:42px}}
+
+.vcompare{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:end;height:330px;padding:20px 14px 48px;border-bottom:1px solid #dde6e0}
+.vcat{height:250px;display:flex;align-items:end;justify-content:center;gap:8px;position:relative}
+.vbar{width:34px;border-radius:7px 7px 0 0;min-height:2px;position:relative}
+.vbar.y26{background:linear-gradient(#57a985,#2d8a67)}
+.vbar.y25{background:#c8d3ce}
+.vbar .vlab{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;white-space:nowrap}
+.vname{position:absolute;bottom:-38px;width:120px;text-align:center;font-size:10px;font-weight:700;line-height:1.15}
+.portfolio-values{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+.portfolio-year{background:#f7f9f7;border:1px solid #e3ebe6;border-radius:14px;padding:14px}
+.portfolio-year h4{margin:0 0 10px;font-size:13px}
+.portfolio-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed #e0e7e3;font-size:11px}
+.portfolio-line:last-child{border-bottom:0}
+.flow-list{display:grid;gap:8px}
+.flow-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:13px 15px;border:1px solid #e4ebe7;border-radius:13px;background:#f8faf8;position:relative}
+.flow-row:not(:last-child):after{content:"↓";position:absolute;bottom:-15px;left:50%;transform:translateX(-50%);color:#789087;font-weight:900}
+.flow-row b{font-size:19px}
+.flow-row.in{border-left:5px solid var(--green2)}
+.flow-row.out{border-left:5px solid var(--orange)}
+.flow-row.prev{border-left:5px solid var(--purple)}
+.flow-row.final{border-left:5px solid var(--blue);background:#eef5fa}
+.erosion-amount{font-size:28px!important;letter-spacing:-.035em}
+.erosion-pct{font-size:12px;color:var(--muted);font-weight:700;margin-top:2px}
+.total-row td{font-weight:850;background:#f2f6f3}
+.er-total td{font-weight:850;background:#eef4f0}
+.indent{padding-left:25px!important;color:#5e7068}
+.bcpvals{margin-top:10px;display:grid;gap:4px;font-size:10px;color:var(--muted)}
+.bcpvals b{color:var(--ink)}
+
+
+.word-btn{display:block;margin-top:10px;text-align:center;text-decoration:none;background:#2b6f9e;color:white;padding:10px 13px;border-radius:11px;font-size:12px;font-weight:800}
+.word-btn:hover{filter:brightness(.95)}
+.channel-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.channel-summary .mini b{font-size:20px}
+.ratio-compare{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
+.ratio-compare td,.ratio-compare th{border-bottom:1px solid #e5ebe7;padding:7px 5px;text-align:right}
+.ratio-compare td:first-child,.ratio-compare th:first-child{text-align:left}
+
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">Gerencia de<br>Planificación<small>Crédito Agrícola de Habilitación</small></div>
+  <nav class="nav">
+    <a href="#resumen">Resumen ejecutivo</a>
+    <a href="#actividad">Actividad financiera</a>
+    <a href="#recuperaciones">Recuperaciones</a>
+    <a href="#bancarizacion">Bancarización</a>
+    <a href="#cartera">Cartera y riesgo</a>
+    <a href="#ratios">Ratios</a>
+    <a href="#julio">Resultado julio</a>
+    <a href="#balance">Balance y resultados</a>
+    <a href="#fuentes">Fuentes y controles</a>
+  </nav>
+</aside>
+<main class="main">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Informe financiero institucional</div>
+      <h1>Panorama de gestión</h1>
+      <p>Evolución de indicadores de referencia · cifras en guaraníes</p>
+    </div>
+    <div class="period"><label>Periodo de análisis</label><select><option>Julio 2026</option></select><a class="word-btn" href="informe_gerencial_julio_2026.docx" download>↓ Descargar informe Word</a></div>
+  </div>
+
+  <div class="strip">
+    <div><span>Periodo</span><b>Julio 2026</b></div>
+    <div><span>Comparativo</span><b>Julio 2025</b></div>
+    <div><span>Cobertura</span><b>Enero-julio</b></div>
+    <div><span>Estado</span><b class="ok">Verificado</b></div>
+  </div>
+
+  <section id="resumen">
+    <div class="grid4">
+      <div class="card kpi"><div class="klabel">Desembolsos acumulados</div><div class="kvalue" id="kDes"></div><div class="kdelta pos" id="kDesVar"></div></div>
+      <div class="card kpi"><div class="klabel">Capital recuperado</div><div class="kvalue" id="kCap"></div><div class="kdelta pos" id="kCapVar"></div></div>
+      <div class="card kpi"><div class="klabel">Resultado del ejercicio</div><div class="kvalue" id="kRes"></div><div class="kdelta pos" id="kResVar"></div></div>
+      <div class="card kpi"><div class="klabel">Mora PAR 60</div><div class="kvalue" id="kPar60"></div><div class="kdelta" id="kPar60Var"></div></div>
+    </div>
+  </section>
+
+  <section id="actividad">
+    <div class="section-head"><div><div class="tag">Actividad</div><h2>Desembolsos y capital recuperado</h2></div><span class="badge">Acumulado</span></div>
+    <div class="two">
+      <div class="card chart-card">
+        <div class="col-chart" id="activityChart"></div>
+        <div class="legend"><span><i class="dot" style="background:#c9d3ce"></i>2025</span><span><i class="dot" style="background:#3a936f"></i>2026 desembolsos</span><span><i class="dot" style="background:#245b69"></i>2026 capital recuperado</span></div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="tag">Lectura ejecutiva</div>
+          <div class="metric" id="gapMetric" style="margin-top:12px"></div>
+          <p class="small" id="gapText"></p>
+          <div class="mini-grid">
+            <div class="mini"><span>Operaciones</span><b id="ops"></b></div>
+            <div class="mini"><span>Ejecución presupuesto</span><b>73,01%</b></div>
+            <div class="mini"><span>Presupuesto 2026</span><b id="budgetAmount"></b></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:15px">
+          <div class="tag">Composición</div><h3 style="margin:5px 0 15px">Desembolsos por sector</h3>
+          <div class="hbars" id="sectorBars"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recuperaciones">
+    <div class="section-head"><div><div class="tag">Recuperaciones</div><h2>Composición y comparación interanual</h2></div><span class="badge">Ene-jul 2026 vs. 2025</span></div>
+    <div class="four" id="recoveryCards"></div>
+
+    <div class="section-head" style="margin-top:22px"><div><div class="tag">Canales</div><h2>Cobranzas por caja tercerizada</h2></div><span class="badge">Cantidad por gerencia</span></div>
+    <div class="card">
+      <div class="channel-summary">
+        <div class="mini"><span>Total operaciones</span><b>73.720</b></div>
+        <div class="mini"><span>Por caja tercerizada</span><b>62.277</b></div>
+        <div class="mini"><span>Cobertura total</span><b>84,48%</b></div>
+      </div>
+      <div class="hbars" id="thirdBars"></div>
+      <div class="source">Cantidad de cobranzas/recuperaciones por Gerencia y porcentaje de operaciones canalizadas por caja tercerizada. Total institucional: 62.277 de 73.720 operaciones (84,48%).</div>
+    </div>
+
+    <div class="section-head" style="margin-top:22px"><div><div class="tag">Por estado</div><h2>Recuperaciones por estado</h2></div><span class="badge">Todos los estados</span></div>
+    <div class="state-grid" id="stateTables"></div>
+    <div class="two" style="margin-top:15px">
+      <div class="card"><div class="tag">Gráfico</div><h3>Capital total recuperado</h3><div class="vcompare" id="stateCapitalBars"></div><div class="legend"><span><i class="dot" style="background:#2d8a67"></i>2026</span><span><i class="dot" style="background:#c8d3ce"></i>2025</span></div></div>
+      <div class="card"><div class="tag">Gráfico</div><h3>Intereses recuperados</h3><div class="vcompare" id="stateInterestBars"></div><div class="legend"><span><i class="dot" style="background:#2d8a67"></i>2026</span><span><i class="dot" style="background:#c8d3ce"></i>2025</span></div></div>
+    </div>
+  </section>
+
+  <section id="bancarizacion">
+    <div class="section-head"><div><div class="tag">Bancarización</div><h2>Cobertura y centros con mayor bancarización</h2></div><span class="badge">Enero-julio 2026</span></div>
+    <div class="two">
+      <div class="card">
+        <div class="tag">Cobertura por cantidad</div>
+        <div class="metric" id="bankMain" style="margin:10px 0 5px"></div>
+        <div class="small" id="bankSub"></div>
+        <div class="hbars" id="coverageBars" style="margin-top:18px"></div>
+      </div>
+      <div class="card">
+        <div class="tag">Solo julio 2026</div>
+        <div class="metric" id="bankJuly" style="margin:10px 0 5px"></div>
+        <div class="small">Operaciones bancarizadas en el mes de julio.</div>
+        <div class="mini-grid">
+          <div class="mini"><span>Desembolsos julio</span><b>3.579</b></div>
+          <div class="mini"><span>Cobertura julio</span><b id="bankJulyPct"></b></div>
+          <div class="mini"><span>Monto acumulado bancarizado</span><b id="bankAmount"></b></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:15px"><div class="tag">Top 10</div><h3>Centros de Atención con mayor cantidad bancarizada</h3><div class="hbars" id="topBankBars"></div></div>
+  </section>
+
+  <section id="cartera">
+    <div class="section-head"><div><div class="tag">Cartera</div><h2>Composición del capital</h2></div><span class="badge">Julio 2026 vs. julio 2025</span></div>
+    <div class="card">
+      <div class="pies" id="portfolioPies"></div>
+      <div class="pie-leg"><span><i class="dot" style="background:#2d8a67"></i>Vigente</span><span><i class="dot" style="background:#d6a23e"></i>Vencida</span><span><i class="dot" style="background:#bb5b4f"></i>Judicial</span></div>
+      <div class="portfolio-values" id="portfolioValues"></div>
+      <div class="source">El tamaño de cada círculo es proporcional a la cartera total del período.</div>
+    </div>
+
+    <div class="section-head" style="margin-top:22px"><div><div class="tag">Cartera vigente</div><h2>Exigible y no exigible</h2></div><span class="badge">Julio 2026</span></div>
+    <div class="two">
+      <div class="card"><div class="metric" id="vigTotal"></div><div class="small">Capital vigente total</div><div class="pies" style="min-height:245px" id="vigPie"></div><div class="pie-leg"><span><i class="dot" style="background:#2b6f9e"></i>Vigente exigible</span><span><i class="dot" style="background:#78b59a"></i>Vigente no exigible</span></div></div>
+      <div class="card"><div class="tag">Detalle</div><div class="mini-grid" style="grid-template-columns:1fr 1fr">
+        <div class="mini"><span>Vigente exigible</span><b id="vigEx"></b><small id="vigExPct"></small></div>
+        <div class="mini"><span>Vigente no exigible</span><b id="vigNo"></b><small id="vigNoPct"></small></div>
+      </div><p class="small" style="margin-top:17px">La cartera vigente concentra la mayor parte del capital. El desglose permite distinguir la porción actualmente exigible de la porción aún no exigible.</p></div>
+    </div>
+
+    <div class="section-head" style="margin-top:22px"><div><div class="tag">Morosidad</div><h2>PAR 0 y PAR 60</h2></div><span class="badge">Julio 2026 vs. julio 2025</span></div>
+    <div class="two">
+      <div class="card" id="par0Card"></div>
+      <div class="card" id="par60Card"></div>
+    </div>
+  </section>
+
+  <section id="ratios">
+    <div class="section-head"><div><div class="tag">Ratios</div><h2>Rentabilidad, liquidez y solvencia</h2></div><span class="badge">CAH + referencia BCP</span></div>
+    <div class="ratio-grid" id="ratiosGrid"></div>
+    <div class="warning">Referencia externa BCP: para ROE, ROA e índice de solvencia se utilizan las planillas de julio 2026, hoja “2. Ratios”, columna “Sistema”. En Liquidez se muestra únicamente la cifra del CAH, conforme a lo acordado, sin compararla con Bancos ni Financieras.</div>
+  </section>
+
+  <section id="julio">
+    <div class="section-head"><div><div class="tag">Resultado mensual</div><h2>Julio 2026 y erosión por mora</h2></div><span class="badge">Solo mes de julio</span></div>
+    <div class="card">
+      <div class="flow-list" id="waterfall"></div>
+      <div class="erosion" id="erosion"></div>
+      <div class="source">Julio se obtiene del cuadro fuente: acumulado enero-julio menos acumulado enero-junio. PAR 0 y PAR 60 se comparan por separado; no se suman entre sí.</div>
+    </div>
+  </section>
+
+  <section id="balance">
+    <div class="section-head"><div><div class="tag">Balance</div><h2>Disponible 2026 vs. 2025</h2></div><span class="badge">Al 31 de julio</span></div>
+    <div class="card">
+      <table class="comp-table"><thead><tr><th>Componente</th><th>2026</th><th>2025</th><th>Variación</th></tr></thead><tbody id="availableTable"></tbody></table>
+      <div class="source">Comparativo de los componentes del Disponible al 31 de julio de cada año.</div>
+    </div>
+
+    <div class="section-head" style="margin-top:22px"><div><div class="tag">Estado de resultados</div><h2>Comparativo 2026 vs. 2025</h2></div><span class="badge">Acumulado enero-julio</span></div>
+    <div class="card"><table class="comp-table"><thead><tr><th>Ítem</th><th>2026</th><th>2025</th><th>Variación</th></tr></thead><tbody id="erTable"></tbody></table></div>
+  </section>
+
+  <section id="fuentes">
+    <div class="section-head"><div><div class="tag">Trazabilidad</div><h2>Fuentes y controles</h2></div></div>
+    <div class="three">
+      <div class="card"><div class="klabel">Fuente operativa</div><div class="kvalue" style="font-size:19px">CIFRAS mes julio(1).xlsx</div><div class="small">Versión corregida; 23 hojas.</div></div>
+      <div class="card"><div class="klabel">Fuente contable</div><div class="kvalue" style="font-size:19px">Balances julio 2026 y 2025</div><div class="small">Balance General y Estado de Resultados.</div></div>
+      <div class="card"><div class="klabel">Referencia externa</div><div class="kvalue" style="font-size:19px">Banco Central del Paraguay</div><div class="small">Indicadores financieros del sistema; junio 2026.</div></div>
+    </div>
+  </section>
+
+  <div class="footer">Dashboard gerencial · corte julio 2026. Importes abreviados en millones de guaraníes (₲ M). Las métricas y comparativos se construyen con los archivos suministrados por el usuario; la referencia BCP se presenta como benchmark contextual por diferencias metodológicas.</div>
+</main>
+</div>
+<script>
+const DATA = {"D": {"des_2026": 365465733512, "des_2025": 317027943289, "des_cnt_2026": 24153, "des_cnt_2025": 23969, "capital_rec_2026": 320889212923, "capital_rec_2025": 300647992361, "interest_rec_2026": 58236209272, "interest_rec_2025": 52637883122, "total_rec_2026": 379125422195, "total_rec_2025": 353285875483, "admin_2026": 4872234262, "admin_2025": 1368040000, "result_2026": 23499786961, "result_2025": 11488992433, "par60_2026": 0.0183, "par60_2025": 0.0131, "par60_amt_2026": 4913972072, "par60_cnt_2026": 774, "par0_2026": 0.0393, "par0_2025": 0.0342, "par0_amt_2026": 10549879569, "par0_cnt_2026": 1701, "exigible_base_2026": 268774171057, "cartera_2026": 749879205137, "cartera_2025": 733281280007, "vig_2026": 715646274075, "ven_2026": 28578445190, "jud_2026": 5654485872, "vig_2025": 613401597338, "ven_2025": 70445613931, "jud_2025": 49434068738, "vig_ex_2026": 151631385900, "vig_noex_2026": 564014888175, "banc_total": 24153, "banc_count": 24083, "banc_amount_total": 365465733512, "banc_amount": 364087507285, "banc_july_count": 3568, "july_des_count": 3579, "july_ing_op": 9172797951, "july_other": 941587685, "july_cost": 0, "july_gastos": 4870039407, "july_before_prev": 5244346229, "july_prev": 1362470147, "july_result": 3881876082, "july_par0": 3299620500, "july_par0_cnt": 475, "july_par60": 1079513540, "july_par60_cnt": 167, "roe": 0.030407953788302838, "roa": 0.0276877067908355, "solv": 11.178379690011203, "liq": 23.227084172578785}, "sectors": [["Agropecuario", 152913940059], ["Agrícola", 86287719320], ["Actividades afines", 42924099852], ["Comercio", 29146192798], ["Pecuario", 25348639459], ["Servicios", 17989685697], ["Artesanía", 8769862500], ["Agroindustrias", 1506020000], ["Sin dato", 493193827], ["Forestal", 86380000]], "states": [["Inhibido", 0, 0, 0, 0, 0, 0, 0, 0], ["Judicial", 513247380, 4794237, 518041617, 437049518, 788197049, 22864794, 811061843, 620433265], ["Castigado", 1060253529, 15552801, 1075806330, 1022239128, 1931551709, 29961781, 1961513490, 1628455428], ["Vencida", 3514698637, 71482023, 3586180660, 2077757898, 3881409602, 54336327, 3935745929, 2184541809], ["Vigente", 288656281674, 26867042423, 315523324097, 54487077500, 268777452388, 25160428099, 293937880487, 48203807722], ["Desafectado judicial", 185129095, 731124, 185860219, 212085228, 1790612, 0, 1790612, 644898]], "thirdParty": [["Centro", 11193], ["Centro-Sur", 18135], ["Norte", 12844], ["Servicios-Chaco", 1742], ["Sur-Este", 18363]], "bankCoverage": [["Sur-Este", 1.0], ["Centro", 0.9998029944838456], ["Centro-Sur", 0.9992282461894656], ["Norte", 0.9984598798706299], ["Servicios-Chaco", 0.868421052631579]], "bankTop10": [["San Juan Nepomuceno", 786], ["Caaguazú", 726], ["Carapeguá", 717], ["Juan León Mallorquín", 716], ["Guajaibí", 647], ["Capiibary", 622], ["Hernandarias", 609], ["Edelira", 554], ["Caazapá", 543], ["J. A. Saldívar", 519]], "available": [["Banco Cta. Cte. MN", 18080572902, 20928923864], ["Banco Caja de Ahorro", 17804800008, 30033973440], ["Cheques Emitidos", 62563441, 158011124], ["Recaudaciones a Depositar", 136806866, 18106816], ["Fondo Fijo", 11200000, 20193350]], "er": [["Ingresos operativos", 61463289562, 53254030588], ["Otros ingresos", 5795162332, 7239512785], ["Costos financieros", 425574, 12391002], ["Gastos servicios personales", 20475839323, 22378928797], ["Gastos servicios no personales", 8998199146, 9061409659], ["Gastos consumo de bienes", 757242331, 942053489], ["Quita de interés", 67234710, 937962692], ["Generales", 404041473, 750182007], ["Gastos generales de operación", 63809736, 59023256], ["Previsiones BCP", 12991872640, 14862600038], ["Utilidad antes de previsiones", 36491659601, 26351592471], ["Resultado del ejercicio", 23499786961, 11488992433]], "bcp": {"rentabilidad_sistema": 18.6, "liquidez_sistema": 31.54, "solv_bancos": 17.03, "solv_financieras": 16.97, "periodo": "Junio 2026"}};
+const D=DATA.D;
+const fmtM=n=>"₲ "+Math.round(n/1e6).toLocaleString("es-PY")+" M";
+const fmtPct=(n,d=2)=>(n*100).toLocaleString("es-PY",{minimumFractionDigits:d,maximumFractionDigits:d})+"%";
+const varPct=(a,b)=>b?((a/b)-1):null;
+const pp=(a,b)=>((a-b)*100).toLocaleString("es-PY",{minimumFractionDigits:2,maximumFractionDigits:2})+" pp";
+const cls=v=>v>=0?"up":"down";
+const signed=v=>(v>=0?"+":"")+ (v*100).toLocaleString("es-PY",{minimumFractionDigits:1,maximumFractionDigits:1})+"%";
+
+kDes.textContent=fmtM(D.des_2026); kDesVar.textContent=signed(varPct(D.des_2026,D.des_2025))+" vs. ene-jul 2025";
+kCap.textContent=fmtM(D.capital_rec_2026); kCapVar.textContent=signed(varPct(D.capital_rec_2026,D.capital_rec_2025))+" vs. ene-jul 2025";
+kRes.textContent=fmtM(D.result_2026); kResVar.textContent=signed(varPct(D.result_2026,D.result_2025))+" vs. ene-jul 2025";
+kPar60.textContent=fmtPct(D.par60_2026); kPar60Var.textContent="+"+pp(D.par60_2026,D.par60_2025)+" vs. julio 2025"; kPar60Var.className="kdelta neg";
+
+function activity(){
+  const vals=[D.des_2025,D.des_2026,D.capital_rec_2025,D.capital_rec_2026],max=Math.max(...vals);
+  const h=v=>Math.max(8,Math.round(v/max*220));
+  activityChart.innerHTML=`
+   <div class="group"><div class="bar old" style="height:${h(D.des_2025)}px"><label>${fmtM(D.des_2025).replace("₲ ","")}</label></div><div class="bar des" style="height:${h(D.des_2026)}px"><label>${fmtM(D.des_2026).replace("₲ ","")}</label></div><span class="glabel">Desembolsos</span></div>
+   <div class="group"><div class="bar old" style="height:${h(D.capital_rec_2025)}px"><label>${fmtM(D.capital_rec_2025).replace("₲ ","")}</label></div><div class="bar rec" style="height:${h(D.capital_rec_2026)}px"><label>${fmtM(D.capital_rec_2026).replace("₲ ","")}</label></div><span class="glabel">Capital recuperado</span></div>`;
+}
+activity();
+const gap=D.capital_rec_2026-D.des_2026;
+gapMetric.textContent=fmtM(Math.abs(gap));
+gapText.textContent=gap>=0?"El capital recuperado supera a los desembolsos acumulados.":"Brecha neta: los desembolsos acumulados superan al capital recuperado.";
+ops.textContent=D.des_cnt_2026.toLocaleString("es-PY"); budgetAmount.textContent=fmtM(500596847000);
+
+function hbars(el, rows, colorMode="green", formatter=fmtM){
+  const max=Math.max(...rows.map(x=>x[1]),1);
+  el.innerHTML=rows.map((x,i)=>`<div class="hrow"><span>${x[0]}</span><div class="track"><div class="fill" style="width:${x[1]/max*100}%;${colorMode==="muted"?"background:#829b90":""}"></div></div><b class="amount">${formatter(x[1])}</b></div>`).join("");
+}
+const sectorTotal=D.des_2026;
+sectorBars.innerHTML=DATA.sectors.slice(0,8).map(x=>`<div class="hrow"><span>${x[0]} · <b>${fmtPct(x[1]/sectorTotal,1)}</b></span><div class="track"><div class="fill" style="width:${x[1]/DATA.sectors[0][1]*100}%"></div></div><b class="amount">${fmtM(x[1])}</b></div>`).join("");
+const rc=[
+ ["Capital",D.capital_rec_2026,D.capital_rec_2025],
+ ["Intereses",D.interest_rec_2026,D.interest_rec_2025],
+ ["Total capital + interés",D.total_rec_2026,D.total_rec_2025],
+ ["Gastos administrativos",D.admin_2026,D.admin_2025]
+];
+recoveryCards.innerHTML=rc.map(x=>{const v=varPct(x[1],x[2]);return `<div class="card"><div class="klabel">${x[0]}</div><div class="kvalue" style="font-size:23px">${fmtM(x[1])}</div><div class="${cls(v)}" style="font-size:11px">${signed(v)} vs. 2025</div><div class="small" style="margin-top:6px">2025: ${fmtM(x[2])}</div></div>`}).join("");
+const thirdPct={"Centro":0.91,"Centro-Sur":0.851368480353035,"Norte":0.8876909254267745,"Servicios-Chaco":0.5490072486605736,"Sur-Este":0.81696845664457};
+const thirdSorted=[...DATA.thirdParty].sort((a,b)=>b[1]-a[1]);
+const thirdMax=Math.max(...thirdSorted.map(x=>x[1]));
+thirdBars.innerHTML=thirdSorted.map(x=>`<div class="hrow"><span>${x[0]} · <b>${fmtPct(thirdPct[x[0]],1)}</b></span><div class="track"><div class="fill" style="width:${x[1]/thirdMax*100}%"></div></div><b class="amount">${x[1].toLocaleString("es-PY")}</b></div>`).join("");
+
+const stateMetricDefs=[
+ ["Capital exigible",1,5],["Capital no exigible",2,6],["Capital total",3,7],["Intereses",4,8]
+];
+stateTables.innerHTML=stateMetricDefs.map(def=>{
+ let rows=DATA.states.map(s=>{const v26=s[def[1]],v25=s[def[2]],vr=v25?varPct(v26,v25):null;return `<tr><td>${s[0]}</td><td>${fmtM(v26)}</td><td>${fmtM(v25)}</td><td class="${vr==null?"":cls(vr)}">${vr==null?"—":signed(vr)}</td></tr>`}).join("");
+ const t26=DATA.states.reduce((a,s)=>a+s[def[1]],0), t25=DATA.states.reduce((a,s)=>a+s[def[2]],0), tvr=t25?varPct(t26,t25):null;
+ rows+=`<tr class="total-row"><td>TOTAL</td><td>${fmtM(t26)}</td><td>${fmtM(t25)}</td><td class="${tvr==null?"":cls(tvr)}">${tvr==null?"—":signed(tvr)}</td></tr>`;
+ return `<div class="card state-card"><div class="tag">Recuperaciones</div><h3>${def[0]}</h3><table class="comp-table"><thead><tr><th>Estado</th><th>2026</th><th>2025</th><th>Var.</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}).join("");
+
+function dualStateBars(el, idx26, idx25){
+ const rows=DATA.states.filter(s=>s[idx26]>0||s[idx25]>0);
+ const max=Math.max(...rows.flatMap(s=>[s[idx26],s[idx25]]),1);
+ el.innerHTML=rows.map(s=>`<div class="vcat"><div class="vbar y26" style="height:${Math.max(2,s[idx26]/max*220)}px"><span class="vlab">${Math.round(s[idx26]/1e6).toLocaleString("es-PY")}</span></div><div class="vbar y25" style="height:${Math.max(2,s[idx25]/max*220)}px"><span class="vlab">${Math.round(s[idx25]/1e6).toLocaleString("es-PY")}</span></div><span class="vname">${s[0]}</span></div>`).join("");
+}
+dualStateBars(stateCapitalBars,3,7); dualStateBars(stateInterestBars,4,8);
+
+bankMain.textContent=fmtPct(D.banc_count/D.banc_total);
+bankSub.textContent=`${D.banc_count.toLocaleString("es-PY")} de ${D.banc_total.toLocaleString("es-PY")} operaciones desembolsadas cuentan con canal bancarizado.`;
+hbars(coverageBars, DATA.bankCoverage, "green", n=>fmtPct(n));
+bankJuly.textContent=D.banc_july_count.toLocaleString("es-PY");
+bankJulyPct.textContent=fmtPct(D.banc_july_count/D.july_des_count);
+bankAmount.textContent=fmtM(D.banc_amount);
+hbars(topBankBars, DATA.bankTop10, "green", n=>n.toLocaleString("es-PY"));
+
+function pieHtml(title,total,parts,size){
+ let acc=0, stops=[];
+ parts.forEach(p=>{const from=acc, to=acc+p[1]/total*100;stops.push(`${p[2]} ${from}% ${to}%`);acc=to;});
+ return `<div class="pie-wrap"><div class="pie" style="width:${size}px;height:${size}px;background:conic-gradient(${stops.join(",")})"><div class="pie-center">${fmtM(total)}</div></div><div class="pie-title">${title}</div><div class="pie-sub">${parts.map(p=>p[0]+" "+fmtPct(p[1]/total,1)).join(" · ")}</div></div>`;
+}
+const maxCar=Math.max(D.cartera_2026,D.cartera_2025), base=218;
+portfolioPies.innerHTML=
+ pieHtml("Julio 2026",D.cartera_2026,[["Vigente",D.vig_2026,"#2d8a67"],["Vencida",D.ven_2026,"#d6a23e"],["Judicial",D.jud_2026,"#bb5b4f"]],base*Math.sqrt(D.cartera_2026/maxCar))+
+ pieHtml("Julio 2025",D.cartera_2025,[["Vigente",D.vig_2025,"#2d8a67"],["Vencida",D.ven_2025,"#d6a23e"],["Judicial",D.jud_2025,"#bb5b4f"]],base*Math.sqrt(D.cartera_2025/maxCar));
+portfolioValues.innerHTML=[
+ ["Julio 2026",D.vig_2026,D.ven_2026,D.jud_2026,D.cartera_2026],
+ ["Julio 2025",D.vig_2025,D.ven_2025,D.jud_2025,D.cartera_2025]
+].map(x=>`<div class="portfolio-year"><h4>${x[0]} · Total ${fmtM(x[4])}</h4><div class="portfolio-line"><span>Vigente</span><b>${fmtM(x[1])}</b></div><div class="portfolio-line"><span>Vencida</span><b>${fmtM(x[2])}</b></div><div class="portfolio-line"><span>Judicial</span><b>${fmtM(x[3])}</b></div></div>`).join("");
+
+vigTotal.textContent=fmtM(D.vig_2026); vigEx.textContent=fmtM(D.vig_ex_2026); vigNo.textContent=fmtM(D.vig_noex_2026);
+vigExPct.textContent=fmtPct(D.vig_ex_2026/D.vig_2026); vigNoPct.textContent=fmtPct(D.vig_noex_2026/D.vig_2026);
+vigPie.innerHTML=pieHtml("",D.vig_2026,[["Exigible",D.vig_ex_2026,"#2b6f9e"],["No exigible",D.vig_noex_2026,"#78b59a"]],190);
+
+function parCard(title,p26,p25,amt,cnt){
+ const diff=p26-p25;
+ return `<div class="tag">Morosidad</div><h3 style="margin:5px 0 12px">${title}</h3><div style="display:flex;justify-content:space-between;align-items:end"><div><div class="metric">${fmtPct(p26)}</div><div class="small">Julio 2026</div></div><div style="text-align:right"><b style="font-size:21px">${fmtPct(p25)}</b><div class="small">Julio 2025</div></div></div><div class="warning" style="margin-top:14px">${diff>=0?"+":""}${pp(p26,p25)} interanual</div><div class="mini-grid" style="grid-template-columns:1fr 1fr"><div class="mini"><span>Monto mora 2026</span><b>${fmtM(amt)}</b></div><div class="mini"><span>Operaciones en mora</span><b>${cnt.toLocaleString("es-PY")}</b></div></div>`;
+}
+par0Card.innerHTML=parCard("Mora PAR 0",D.par0_2026,D.par0_2025,D.par0_amt_2026,D.par0_cnt_2026);
+par60Card.innerHTML=parCard("Mora PAR 60",D.par60_2026,D.par60_2025,D.par60_amt_2026,D.par60_cnt_2026);
+
+ratiosGrid.innerHTML=[
+ ["ROE",fmtPct(D.roe),"Resultado / Patrimonio","18,85%","21,40%"],
+ ["ROA",fmtPct(D.roa),"Resultado / Activos","2,14%","2,30%"],
+ ["Índice de solvencia",D.solv.toLocaleString("es-PY",{maximumFractionDigits:2}),"Activo / Pasivo","1,14","1,14"],
+ ["Liquidez",D.liq.toLocaleString("es-PY",{maximumFractionDigits:2}),"Activo corriente / Pasivo corriente","",""]
+].map(x=>{
+ const refs=x[0]==="Liquidez" ? "" : `<table class="ratio-compare"><thead><tr><th>Referencia</th><th>Valor</th></tr></thead><tbody><tr><td>CAH</td><td><b>${x[1]}</b></td></tr><tr><td>Total Bancos</td><td>${x[3]}</td></tr><tr><td>Total Financieras</td><td>${x[4]}</td></tr></tbody></table>`;
+ return `<div class="card ratio"><div class="klabel">${x[0]}</div><div class="metric">${x[1]}</div><div class="small">${x[2]}</div>${refs}</div>`;
+}).join("");
+
+waterfall.innerHTML=[
+ ["Ingresos operativos + otros",D.july_ing_op+D.july_other,"in","+"],
+ ["Gastos",D.july_gastos,"out","−"],
+ ["Utilidad antes de previsiones",D.july_before_prev,"in","="],
+ ["Previsiones BCP",D.july_prev,"prev","−"],
+ ["Resultado julio",D.july_result,"final","="]
+].map(x=>`<div class="flow-row ${x[2]}"><span><span class="small">${x[3]} ${x[0]}</span></span><b>${fmtM(x[1])}</b></div>`).join("");
+const er0=D.july_par0/D.july_result, er60=D.july_par60/D.july_result;
+erosion.innerHTML=[
+ ["PAR 0 frente al resultado julio",D.july_par0,er0,D.july_par0_cnt],
+ ["PAR 60 frente al resultado julio",D.july_par60,er60,D.july_par60_cnt]
+].map(x=>`<div class="cardish"><div class="small">${x[0]}</div><b class="erosion-amount">${fmtM(x[1])}</b><div class="erosion-pct">Equivale al ${fmtPct(x[2],1)} del resultado de julio</div><div class="progress"><span style="width:${Math.min(x[2]*100,100)}%"></span></div><div class="small">${x[3]} operaciones</div></div>`).join("");
+
+const availableRows=DATA.available.map(x=>{const v=varPct(x[1],x[2]);return `<tr><td>${x[0]}</td><td>${fmtM(x[1])}</td><td>${fmtM(x[2])}</td><td class="${cls(v)}">${signed(v)}</td></tr>`}).join("");
+const avv=varPct(36095943217,51159208594);
+availableTable.innerHTML=availableRows+`<tr class="total-row"><td>DISPONIBLE TOTAL</td><td>${fmtM(36095943217)}</td><td>${fmtM(51159208594)}</td><td class="${cls(avv)}">${signed(avv)}</td></tr>`;
+
+const gastos26=30766366719, gastos25=34129559900;
+const erOrdered=[
+ ["Ingresos operativos",61463289562,53254030588,"normal"],
+ ["Otros ingresos",5795162332,7239512785,"normal"],
+ ["Costos financieros",425574,12391002,"normal"],
+ ["GASTOS TOTAL",gastos26,gastos25,"total"],
+ ["↳ Servicios personales",20475839323,22378928797,"detail"],
+ ["↳ Servicios no personales",8998199146,9061409659,"detail"],
+ ["↳ Consumo de bienes",757242331,942053489,"detail"],
+ ["↳ Quita de interés",67234710,937962692,"detail"],
+ ["↳ Generales",404041473,750182007,"detail"],
+ ["↳ Gastos generales de operación",63809736,59023256,"detail"],
+ ["Utilidad antes de previsiones",36491659601,26351592471,"total"],
+ ["Previsiones BCP",12991872640,14862600038,"normal"],
+ ["Resultado del ejercicio",23499786961,11488992433,"total"]
+];
+erTable.innerHTML=erOrdered.map(x=>{const v=varPct(x[1],x[2]);return `<tr class="${x[3]==="total"?"er-total":""}"><td class="${x[3]==="detail"?"indent":""}">${x[0]}</td><td>${fmtM(x[1])}</td><td>${fmtM(x[2])}</td><td class="${cls(v)}">${signed(v)}</td></tr>`}).join("");
+</script>
+</body></html>
