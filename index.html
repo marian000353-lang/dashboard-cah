@@ -73,6 +73,44 @@ section{scroll-margin-top:20px;margin-top:34px}.section-head{display:flex;justif
 .ratio-compare td,.ratio-compare th{border-bottom:1px solid #e5ebe7;padding:7px 5px;text-align:right}
 .ratio-compare td:first-child,.ratio-compare th:first-child{text-align:left}
 
+
+.state-chart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.state-mini{border:1px solid #e4ebe7;border-radius:14px;padding:12px;background:#fafcfb}
+.state-mini h4{font-size:11px;margin:0 0 8px;text-align:center}
+.state-bars{height:150px;display:flex;gap:16px;align-items:end;justify-content:center}
+.state-vbar{width:34px;border-radius:7px 7px 0 0;position:relative;min-height:2px}
+.state-vbar.y25{background:#c8d3ce}.state-vbar.y26{background:#2d8a67}
+.state-vbar span{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;white-space:nowrap}
+.vig-pie-wrap{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap}
+.vig-pie{width:210px;height:210px;border-radius:50%;display:grid;place-items:center;position:relative}
+.vig-pie:after{content:"";position:absolute;width:52%;height:52%;background:#fff;border-radius:50%}
+.vig-pie-center{position:relative;z-index:2;font-weight:850;font-size:13px;text-align:center}
+.diff-row{margin-top:10px;background:#fff5e6;border:1px solid #f0d4a4;border-radius:12px;padding:12px;display:flex;justify-content:space-between;gap:14px;font-size:12px}
+@media(max-width:800px){.state-chart-grid{grid-template-columns:1fr 1fr}}
+
+
+.advisor-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:15px}
+.advisor-chart{display:grid;gap:8px}.adv-row{display:grid;grid-template-columns:175px 1fr 90px;align-items:center;gap:8px;font-size:10px}
+.adv-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.adv-track{height:13px;background:#e8eeea;border-radius:99px;overflow:hidden}
+.adv-fill{height:100%;background:linear-gradient(90deg,#bb5b4f,#d28757);border-radius:99px}.adv-val{text-align:right;font-weight:800}
+.advisor-table{width:100%;border-collapse:collapse;font-size:10px}.advisor-table th,.advisor-table td{padding:8px 6px;border-bottom:1px solid #e6ece8;text-align:right}
+.advisor-table th:first-child,.advisor-table td:first-child,.advisor-table th:nth-child(2),.advisor-table td:nth-child(2),.advisor-table th:nth-child(3),.advisor-table td:nth-child(3){text-align:left}
+.advisor-table th{font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+@media(max-width:950px){.advisor-grid{grid-template-columns:1fr}.adv-row{grid-template-columns:140px 1fr 75px}}
+
+.simple-compare{height:230px;display:flex;justify-content:center;align-items:end;gap:42px;padding:18px 20px 35px;border-bottom:1px solid #e0e7e3}
+.scbar{width:70px;border-radius:9px 9px 0 0;position:relative}
+.scbar.y25{background:#c8d3ce}.scbar.y26{background:#2d8a67}
+.scbar b{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:10px;white-space:nowrap}
+.scbar span{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700}
+.quad-compare{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end;min-height:240px;padding-top:20px}
+.qcat{text-align:center}.qbars{height:170px;display:flex;align-items:end;justify-content:center;gap:7px}
+.qbar{width:27px;border-radius:6px 6px 0 0;position:relative;min-height:2px}
+.qbar.y25{background:#c8d3ce}.qbar.y26{background:#2b6f9e}
+.qbar b{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:8px;white-space:nowrap}
+.qname{font-size:9px;font-weight:750;margin-top:7px}
+@media(max-width:700px){.quad-compare{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
@@ -85,9 +123,11 @@ section{scroll-margin-top:20px;margin-top:34px}.section-head{display:flex;justif
     <a href="#recuperaciones">Recuperaciones</a>
     <a href="#bancarizacion">Bancarización</a>
     <a href="#cartera">Cartera y riesgo</a>
+    <a href="#mora-asesor">Mora por asesor</a>
     <a href="#ratios">Ratios</a>
     <a href="#julio">Resultado julio</a>
     <a href="#balance">Balance y resultados</a>
+    <a href="#presupuesto">Presupuesto y ejecución</a>
     <a href="#fuentes">Fuentes y controles</a>
   </nav>
 </aside>
@@ -160,9 +200,11 @@ section{scroll-margin-top:20px;margin-top:34px}.section-head{display:flex;justif
 
     <div class="section-head" style="margin-top:22px"><div><div class="tag">Por estado</div><h2>Recuperaciones por estado</h2></div><span class="badge">Todos los estados</span></div>
     <div class="state-grid" id="stateTables"></div>
-    <div class="two" style="margin-top:15px">
-      <div class="card"><div class="tag">Gráfico</div><h3>Capital total recuperado</h3><div class="vcompare" id="stateCapitalBars"></div><div class="legend"><span><i class="dot" style="background:#2d8a67"></i>2026</span><span><i class="dot" style="background:#c8d3ce"></i>2025</span></div></div>
-      <div class="card"><div class="tag">Gráfico</div><h3>Intereses recuperados</h3><div class="vcompare" id="stateInterestBars"></div><div class="legend"><span><i class="dot" style="background:#2d8a67"></i>2026</span><span><i class="dot" style="background:#c8d3ce"></i>2025</span></div></div>
+    <div class="card" style="margin-top:15px">
+      <div class="tag">Gráficos por estado</div><h3>Capital total recuperado</h3>
+      <div class="state-chart-grid" id="stateTotalCharts"></div>
+      <div class="source">Cada gráfico compara únicamente el capital total recuperado 2026 vs. 2025 para un estado.</div>
+    </div>
     </div>
   </section>
 
@@ -200,17 +242,34 @@ section{scroll-margin-top:20px;margin-top:34px}.section-head{display:flex;justif
 
     <div class="section-head" style="margin-top:22px"><div><div class="tag">Cartera vigente</div><h2>Exigible y no exigible</h2></div><span class="badge">Julio 2026</span></div>
     <div class="two">
-      <div class="card"><div class="metric" id="vigTotal"></div><div class="small">Capital vigente total</div><div class="pies" style="min-height:245px" id="vigPie"></div><div class="pie-leg"><span><i class="dot" style="background:#2b6f9e"></i>Vigente exigible</span><span><i class="dot" style="background:#78b59a"></i>Vigente no exigible</span></div></div>
-      <div class="card"><div class="tag">Detalle</div><div class="mini-grid" style="grid-template-columns:1fr 1fr">
-        <div class="mini"><span>Vigente exigible</span><b id="vigEx"></b><small id="vigExPct"></small></div>
-        <div class="mini"><span>Vigente no exigible</span><b id="vigNo"></b><small id="vigNoPct"></small></div>
-      </div><p class="small" style="margin-top:17px">La cartera vigente concentra la mayor parte del capital. El desglose permite distinguir la porción actualmente exigible de la porción aún no exigible.</p></div>
+      <div class="card">
+        <div class="tag">Composición</div><h3>Cartera vigente - julio 2026</h3>
+        <div class="vig-pie-wrap">
+          <div class="vig-pie" id="vigDonut"><div class="vig-pie-center" id="vigTotal"></div></div>
+          <div>
+            <div class="portfolio-line"><span>Vigente exigible</span><b id="vigEx"></b></div>
+            <div class="portfolio-line"><span>Vigente no exigible</span><b id="vigNo"></b></div>
+            <div class="portfolio-line"><span>Total vigente</span><b id="vigTotalLine"></b></div>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="tag">Lectura</div><p class="small">La torta muestra la composición de la cartera vigente entre capital exigible y no exigible al corte de julio 2026.</p></div>
+    </div><p class="small" style="margin-top:17px">La cartera vigente concentra la mayor parte del capital. El desglose permite distinguir la porción actualmente exigible de la porción aún no exigible.</p></div>
     </div>
 
     <div class="section-head" style="margin-top:22px"><div><div class="tag">Morosidad</div><h2>PAR 0 y PAR 60</h2></div><span class="badge">Julio 2026 vs. julio 2025</span></div>
     <div class="two">
       <div class="card" id="par0Card"></div>
       <div class="card" id="par60Card"></div>
+    </div>
+  </section>
+
+
+  <section id="mora-asesor">
+    <div class="section-head"><div><div class="tag">Morosidad</div><h2>Capital en mora (PAR 0) por asesor</h2></div><span class="badge">PAR 0 · Julio 2026</span></div>
+    <div class="advisor-grid">
+      <div class="card"><div class="tag">Ranking</div><div class="advisor-chart" id="advisorChart" style="margin-top:14px"></div><div class="source">Fuente: hoja “mora por asesor”. Se muestran únicamente los 15 asesores con mayor capital en mora.</div></div>
+      <div class="card" style="overflow:auto"><div class="tag">Detalle</div><table class="advisor-table"><thead><tr><th>Gerencia</th><th>Centro</th><th>Asesor</th><th>Exigible</th><th>Op. mora</th><th>Capital mora</th><th>%</th></tr></thead><tbody id="advisorTable"></tbody></table></div>
     </div>
   </section>
 
@@ -236,8 +295,38 @@ section{scroll-margin-top:20px;margin-top:34px}.section-head{display:flex;justif
       <div class="source">Comparativo de los componentes del Disponible al 31 de julio de cada año.</div>
     </div>
 
-    <div class="section-head" style="margin-top:22px"><div><div class="tag">Estado de resultados</div><h2>Comparativo 2026 vs. 2025</h2></div><span class="badge">Acumulado enero-julio</span></div>
+    
+    <div class="two" style="margin-top:15px">
+      <div class="card">
+        <div class="tag">Comparativo</div><h3>Disponible total</h3>
+        <div class="simple-compare" id="availableCompare"></div>
+      </div>
+      <div class="card">
+        <div class="tag">Comparativo</div><h3>Ingresos, gastos, previsiones y resultado</h3>
+        <div class="quad-compare" id="erCompare"></div>
+      </div>
+    </div>
+
+<div class="section-head" style="margin-top:22px"><div><div class="tag">Estado de resultados</div><h2>Comparativo 2026 vs. 2025</h2></div><span class="badge">Acumulado enero-julio</span></div>
     <div class="card"><table class="comp-table"><thead><tr><th>Ítem</th><th>2026</th><th>2025</th><th>Variación</th></tr></thead><tbody id="erTable"></tbody></table></div>
+  </section>
+
+
+  <section id="presupuesto">
+    <div class="section-head"><div><div class="tag">Presupuesto</div><h2>Presupuesto 2026 y ejecución financiera</h2></div><span class="badge">Enero-julio 2026</span></div>
+    <div class="card">
+      <div class="four">
+        <div class="mini"><span>Presupuesto 2026</span><b>₲ 500.597 M</b></div>
+        <div class="mini"><span>Desembolsos ene-jul</span><b>₲ 365.466 M</b></div>
+        <div class="mini"><span>Ejecución</span><b>73,0%</b></div>
+        <div class="mini"><span>Saldo presupuestario</span><b>₲ 135.131 M</b></div>
+      </div>
+      <div class="mini" style="margin-top:12px;border-left:5px solid var(--blue)">
+        <span>Capital exigible - cartera vigente</span><b>₲ 151.631 M</b>
+      </div>
+      <div class="diff-row"><span>Diferencia saldo presupuestario - capital exigible</span><b>-₲ 16.500 M</b></div>
+      <div class="source">El capital exigible se toma del cuadro de cartera vigente. La diferencia muestra que el capital exigible supera en ₲ 16.500 M al saldo presupuestario disponible frente a la meta anual.</div>
+    </div>
   </section>
 
   <section id="fuentes">
@@ -308,12 +397,9 @@ stateTables.innerHTML=stateMetricDefs.map(def=>{
  return `<div class="card state-card"><div class="tag">Recuperaciones</div><h3>${def[0]}</h3><table class="comp-table"><thead><tr><th>Estado</th><th>2026</th><th>2025</th><th>Var.</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }).join("");
 
-function dualStateBars(el, idx26, idx25){
- const rows=DATA.states.filter(s=>s[idx26]>0||s[idx25]>0);
- const max=Math.max(...rows.flatMap(s=>[s[idx26],s[idx25]]),1);
- el.innerHTML=rows.map(s=>`<div class="vcat"><div class="vbar y26" style="height:${Math.max(2,s[idx26]/max*220)}px"><span class="vlab">${Math.round(s[idx26]/1e6).toLocaleString("es-PY")}</span></div><div class="vbar y25" style="height:${Math.max(2,s[idx25]/max*220)}px"><span class="vlab">${Math.round(s[idx25]/1e6).toLocaleString("es-PY")}</span></div><span class="vname">${s[0]}</span></div>`).join("");
-}
-dualStateBars(stateCapitalBars,3,7); dualStateBars(stateInterestBars,4,8);
+const totalRows=DATA.states.map(s=>[s[0],s[3],s[7]]);
+const stateMax=Math.max(...totalRows.flatMap(x=>[x[1],x[2]]),1);
+stateTotalCharts.innerHTML=totalRows.map(x=>`<div class="state-mini"><h4>${x[0]}</h4><div class="state-bars"><div class="state-vbar y25" style="height:${Math.max(2,x[2]/stateMax*120)}px"><span>${Math.round(x[2]/1e6).toLocaleString("es-PY")}</span></div><div class="state-vbar y26" style="height:${Math.max(2,x[1]/stateMax*120)}px"><span>${Math.round(x[1]/1e6).toLocaleString("es-PY")}</span></div></div><div class="small" style="text-align:center;margin-top:7px">2025 / 2026</div></div>`).join("");
 
 bankMain.textContent=fmtPct(D.banc_count/D.banc_total);
 bankSub.textContent=`${D.banc_count.toLocaleString("es-PY")} de ${D.banc_total.toLocaleString("es-PY")} operaciones desembolsadas cuentan con canal bancarizado.`;
@@ -337,9 +423,9 @@ portfolioValues.innerHTML=[
  ["Julio 2025",D.vig_2025,D.ven_2025,D.jud_2025,D.cartera_2025]
 ].map(x=>`<div class="portfolio-year"><h4>${x[0]} · Total ${fmtM(x[4])}</h4><div class="portfolio-line"><span>Vigente</span><b>${fmtM(x[1])}</b></div><div class="portfolio-line"><span>Vencida</span><b>${fmtM(x[2])}</b></div><div class="portfolio-line"><span>Judicial</span><b>${fmtM(x[3])}</b></div></div>`).join("");
 
-vigTotal.textContent=fmtM(D.vig_2026); vigEx.textContent=fmtM(D.vig_ex_2026); vigNo.textContent=fmtM(D.vig_noex_2026);
-vigExPct.textContent=fmtPct(D.vig_ex_2026/D.vig_2026); vigNoPct.textContent=fmtPct(D.vig_noex_2026/D.vig_2026);
-vigPie.innerHTML=pieHtml("",D.vig_2026,[["Exigible",D.vig_ex_2026,"#2b6f9e"],["No exigible",D.vig_noex_2026,"#78b59a"]],190);
+vigTotal.textContent=fmtM(D.vig_2026); vigEx.textContent=fmtM(D.vig_ex_2026); vigNo.textContent=fmtM(D.vig_noex_2026); vigTotalLine.textContent=fmtM(D.vig_2026);
+const exPct=D.vig_ex_2026/D.vig_2026*100;
+vigDonut.style.background=`conic-gradient(#2b6f9e 0% ${exPct}%, #78b59a ${exPct}% 100%)`;
 
 function parCard(title,p26,p25,amt,cnt){
  const diff=p26-p25;
@@ -392,5 +478,24 @@ const erOrdered=[
  ["Resultado del ejercicio",23499786961,11488992433,"total"]
 ];
 erTable.innerHTML=erOrdered.map(x=>{const v=varPct(x[1],x[2]);return `<tr class="${x[3]==="total"?"er-total":""}"><td class="${x[3]==="detail"?"indent":""}">${x[0]}</td><td>${fmtM(x[1])}</td><td>${fmtM(x[2])}</td><td class="${cls(v)}">${signed(v)}</td></tr>`}).join("");
+
+const advisorTop15=[{"gerencia": "SUR-ESTE", "centro": "LOS CEDRALES", "asesor": "[90] - ROMERO PERDOMO, FRANCISCO JAVIER", "cantidad": 410, "exigible": 9167721262, "cant_mora": 24, "mora": 437827869, "pct": 0.0478}, {"gerencia": "SUR-ESTE", "centro": "HERNANDARIAS", "asesor": "[516] - PAREDES ROBLES, ANITA", "cantidad": 309, "exigible": 4962820543, "cant_mora": 23, "mora": 367829293, "pct": 0.0741}, {"gerencia": "NORTE", "centro": "SANTA ROSA DEL AGUARAY", "asesor": "[474] - OCAMPOS AGUERO, SERGIO JAVIER", "cantidad": 269, "exigible": 3048713334, "cant_mora": 26, "mora": 271790616, "pct": 0.0891}, {"gerencia": "SUR-ESTE", "centro": "JUAN LEON MALLORQUIN", "asesor": "[95] - FRANCO GONZALEZ, BAUDELIO", "cantidad": 300, "exigible": 5315454067, "cant_mora": 13, "mora": 253122365, "pct": 0.0476}, {"gerencia": "NORTE", "centro": "SANTA ROSA DEL AGUARAY", "asesor": "[509] - ALDERETE SANGUINA, JUAN BAUTISTA", "cantidad": 308, "exigible": 2842065285, "cant_mora": 27, "mora": 233997540, "pct": 0.0823}, {"gerencia": "NORTE", "centro": "LORETO", "asesor": "[232] - VALDEZ CRISTALDO, SILVIA NOELIA", "cantidad": 226, "exigible": 2485212507, "cant_mora": 19, "mora": 224220705, "pct": 0.0902}, {"gerencia": "SUR-ESTE", "centro": "YATYTAY", "asesor": "[220] - ORTIZ BAEZ, NARCISO", "cantidad": 267, "exigible": 2618569699, "cant_mora": 33, "mora": 218480099, "pct": 0.0834}, {"gerencia": "NORTE", "centro": "NARANJITO", "asesor": "[427] - GULLON, DIONICIO", "cantidad": 297, "exigible": 3060698961, "cant_mora": 29, "mora": 212753780, "pct": 0.0695}, {"gerencia": "NORTE", "centro": "LORETO", "asesor": "[119] - BOBADILLA GIMENEZ, WILSON MARIANO", "cantidad": 110, "exigible": 1477909987, "cant_mora": 12, "mora": 211264789, "pct": 0.1429}, {"gerencia": "SUR-ESTE", "centro": "MAYOR OTAÑO", "asesor": "[99] - GONZALEZ CACERES, ATILIO", "cantidad": 202, "exigible": 2685774499, "cant_mora": 18, "mora": 209444729, "pct": 0.078}, {"gerencia": "SUR-ESTE", "centro": "EDELIRA", "asesor": "[107] - FRANCO MELGAREJO, ISABELINO", "cantidad": 754, "exigible": 8250361532, "cant_mora": 36, "mora": 205961898, "pct": 0.025}, {"gerencia": "NORTE", "centro": "GENERAL AQUINO", "asesor": "[309] - GONZALEZ ALMEIDA, JUAN CARLOS", "cantidad": 629, "exigible": 6198368001, "cant_mora": 33, "mora": 192200161, "pct": 0.031}, {"gerencia": "CENTRO-SUR", "centro": "YPACARAI", "asesor": "[324] - MORALES GIMENEZ, ADOLFO COSME", "cantidad": 132, "exigible": 1663515324, "cant_mora": 18, "mora": 182429040, "pct": 0.1097}, {"gerencia": "SUR-ESTE", "centro": "PIRAPO", "asesor": "[519] - GONZALEZ LUGO, WILLIAM", "cantidad": 92, "exigible": 1071989827, "cant_mora": 20, "mora": 177675850, "pct": 0.1657}, {"gerencia": "NORTE", "centro": "CURUGUATY", "asesor": "[342] - GODOY ESCOBAR, GUILLERMO FEDERICO", "cantidad": 343, "exigible": 4100306732, "cant_mora": 19, "mora": 161114607, "pct": 0.0393}];
+const advMax=Math.max(...advisorTop15.map(x=>x.mora));
+advisorChart.innerHTML=advisorTop15.map((x,i)=>`<div class="adv-row" title="${x.asesor}"><span class="adv-name">${i+1}. ${x.asesor.replace(/^\[[^\]]+\]\s*-\s*/,"")}</span><div class="adv-track"><div class="adv-fill" style="width:${x.mora/advMax*100}%"></div></div><span class="adv-val">${fmtM(x.mora)}</span></div>`).join("");
+advisorTable.innerHTML=advisorTop15.map(x=>`<tr><td>${x.gerencia}</td><td>${x.centro}</td><td>${x.asesor}</td><td>${fmtM(x.exigible)}</td><td>${x.cant_mora.toLocaleString("es-PY")}</td><td><b>${fmtM(x.mora)}</b></td><td>${fmtPct(x.pct)}</td></tr>`).join("");
+
+
+const av25=51159208594, av26=36095943217, avMax=Math.max(av25,av26);
+availableCompare.innerHTML=`<div class="scbar y25" style="height:${av25/avMax*170}px"><b>${fmtM(av25)}</b><span>2025</span></div><div class="scbar y26" style="height:${av26/avMax*170}px"><b>${fmtM(av26)}</b><span>2026</span></div>`;
+
+const erRows=[
+ ["Ingresos oper.",53254030588,61463289562],
+ ["Gastos total",34129559900,30766366719],
+ ["Previsiones",14862600038,12991872640],
+ ["Resultado",11488992433,23499786961]
+];
+const erMax=Math.max(...erRows.flatMap(x=>[x[1],x[2]]));
+erCompare.innerHTML=erRows.map(x=>`<div class="qcat"><div class="qbars"><div class="qbar y25" style="height:${x[1]/erMax*145}px"><b>${Math.round(x[1]/1e6).toLocaleString("es-PY")}</b></div><div class="qbar y26" style="height:${x[2]/erMax*145}px"><b>${Math.round(x[2]/1e6).toLocaleString("es-PY")}</b></div></div><div class="qname">${x[0]}</div><div class="small">2025 / 2026</div></div>`).join("");
+
 </script>
 </body></html>
